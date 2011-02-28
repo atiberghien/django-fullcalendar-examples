@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block htmlheader %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/event_form.css" />
+
+<script type="text/javascript">
+ 		$(document).ready(function(){
+  		$('.toggle_button').click(function() {
+  			$(this).parent().next().slideToggle('slow');
+  		});
+  		$('input#all_day').change(function() {
+  			if($(this).is(":checked")) {
+  				$(".date").attr("disabled", "disabled")
+  				$(".hour").attr("disabled", "disabled")
+ 			}
+  			else {
+  				$(".date").removeAttr("disabled");
+  				$(".hour").removeAttr("disabled");
+  			}
+  		});
+  		// Datepicker
+		$(".datepicker").datepicker({
+			showOn: "both",
+			buttonImage: "{{MEDIA_URL}}img/calendar.gif",
+			buttonImageOnly: true
+		});
+
+		// http://fgelinas.com/code/timepicker/timepicker.html
+		$('.timepicker').timepicker ();
+		// Increment or Decrement count value ; interval value
+		$(".inc").click(function() {
+		    var inc = $(this);
+		    var value = inc.parent().find("input").val();
+		    if (inc.text() == "+") {
+		    	value = parseFloat(value) + 1;
+		    } 
+		   	else {
+		   		if (value >= 1) {
+		    		value = parseFloat(value) - 1;
+		    	}
+			}
+			inc.parent().find("input").val(value);
+		});
+		
+		{% if has_recurrence%}
+			$("input[name=recurrence]").click();
+		{% endif %}
+  	});
+</script>
+{% endblock %}
+
+
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+<div id="form">
+		<div class="block">
+			<p>
+				{{event_form.title.label_tag}}
+				{{event_form.title}}
+				{{event_form.title.errors}}
+			</p>
+
+			<p> 
+				{{event_form.description.label_tag}}<a class="toggle_button" href="#">>></a>
+			</p>
+			<div style="display: none;">
+				{{event_form.description}}
+			</div>
+		</div>
+		<div class="block">
+
+			<p>
+				<label>Date </label><br />
+			</p>
+			<p>
+				<label>All Day </label>
+				<input id="all_day" name="all_day" type="checkbox" />
+			</p>
+			<p>
+				{{event_form.begin_date.label_tag}}
+					{{event_form.begin_date}}
+					{{event_form.start_time}}
+					{{event_form.begin_date.errors}}
+					
+			</p>
+			<p>
+				{{event_form.end_date.label_tag}}
+					{{event_form.end_date}}
+					{{event_form.end_time}}
+					{{event_form.end_date.errors}}
+			</p>
+		</div>
+		<div class="block">
+			<p>
+				<label>Repetition</label><input class="toggle_button" type="checkbox" name="recurrence"/>
+			</p>
+
+			<div style="display: none;">
+				<p>
+					{{recurrence_form.frequency.label_tag}}
+					{{recurrence_form.frequency}}
+					{{recurrence_form.frequency.errors}}
+
+				</p>
+				<p>
+					<label for="id_start_datetime">Begin date</label>
+					{{recurrence_form.start_datetime}}
+					{{recurrence_form.start_datetime.errors}}
+				</p>
+				<p>
+					{{recurrence_form.interval.label_tag}}
+					{{recurrence_form.interval}}
+					<a class="inc" href="#">-</a>
+					<a class="inc" href="#">+</a>
+				</p>
+				<p>
+					{{recurrence_form.end_datetime.label_tag}}
+					{{recurrence_form.end_datetime}}
+				</p>
+				<p>
+					{{recurrence_form.count.label_tag}}
+					{{recurrence_form.count}}
+					<a class="inc" href="#">-</a>
+					<a class="inc" href="#">+</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<input type="submit" value="Create" />
+</form>
+{% endblock %}
