@@ -1,6 +1,7 @@
 Django
 python-dateutil
 vobject
+-e git+https://github.com/bartekgorny/django-schedule.git@ajax_ui#egg=django-schedule
 -e git+https://github.com/atiberghien/django-agenda.git#egg=django-agenda
 -e git+https://github.com/jorgebastida/django-dajaxice.git#egg=django-dajaxice
 -e hg+https://bitbucket.org/neithere/django-autoslug#egg=django-autoslug
