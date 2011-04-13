@@ -1,5 +1,5 @@
 Django
-python-dateutil
+python-dateutil==1.5
 vobject
 -e git+https://github.com/bartekgorny/django-schedule.git@ajax_ui#egg=django-schedule
 -e git+https://github.com/atiberghien/django-agenda.git#egg=django-agenda

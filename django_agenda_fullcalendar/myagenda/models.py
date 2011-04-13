@@ -9,4 +9,4 @@ class MyEvent(Event):
 def create_myrecurrence(sender, instance, created, **kwargs):
     create_recurrence(sender, instance, created, event_class=MyEvent)
 
-signals.post_save.connect(create_myrecurrence, Recurrence, dispatch_uid="example-ajax.myagenda.models")
+signals.post_save.connect(create_myrecurrence, Recurrence, dispatch_uid="django_agenda_fullcalendar.myagenda.models")

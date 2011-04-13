@@ -60,7 +60,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.contrib.messages.context_processors.messages")
 
-ROOT_URLCONF = 'example-ajax.urls'
+ROOT_URLCONF = 'django_agenda_fullcalendar.urls'
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, 'templates')	
