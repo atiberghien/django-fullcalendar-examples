@@ -25,7 +25,7 @@ class MyEventForm(EventForm):
 class MyRuleForm(RuleForm):
     params = forms.CharField(required=False, label=u'Params', widget=forms.HiddenInput())
     count = forms.CharField(initial='0')
-    interval = forms.CharField(initial='0')
+    interval = forms.CharField(initial='1')
 
     def clean_interval(self):
         interval = self.cleaned_data["interval"]
