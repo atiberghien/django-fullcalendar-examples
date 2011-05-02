@@ -1,0 +1,22 @@
+{% load strings %}
+<div onclick="location.href='';"  class="block event {{occ.event.calendar.slug|replace:'-,_'}}_event">
+    <p>
+		Title : {{occ.title}} ({{occ.event.calendar}})
+		<a style="float: right;" href="
+        {%if not occ.event.rule %}
+            {% url delete_event occ.event.id %}
+        {% else %}
+            {{occ.get_cancel_url}}
+        {% endif %}
+        ">[x]</a>
+	</p>
+		{% if occ.description %}
+		<p>Desc : {{occ.description}}</p>
+		{% endif %}
+	<p>
+		Begins the {{occ.start.date}} at {{occ.start.time}}	
+	</p>
+	<p>
+		Ends the {{occ.end.date}} at {{occ.end.time}}
+	</p>
+</div>

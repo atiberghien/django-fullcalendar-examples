@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Django Schedule FullCalendar | {% block htmltitle %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/fluid_grid.css" />
+    
+    <link rel='stylesheet' type='text/css' href='{{MEDIA_URL}}css/fullcalendar/fullcalendar.css' />
+    
+    <link rel="stylesheet" href="{{MEDIA_URL}}/css/jquery-ui-timepicker.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/themes/smoothness/jquery-ui.css" type="text/css" media="all" />
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.js" type="text/javascript"></script>
+    <script src="{{MEDIA_URL}}js/jquery.ui.timepicker-0.0.8.js" type="text/javascript"></script>
+    
+    <script type='text/javascript' src='{{MEDIA_URL}}/js/fullcalendar/fullcalendar.min.js'></script>
+    {% block htmlheader %}{% endblock %}
+</head>
+
+
+<body>
+{% block body %}
+<div class="container_16">
+{% block content %}{% endblock %}
+</div>
+
+</body>
+{% endblock %}
+</html>

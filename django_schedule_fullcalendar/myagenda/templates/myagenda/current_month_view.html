@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load strings %}
+
+{% block htmlheader %}
+<script type='text/javascript'>
+$(document).ready(function() {
+	{% for cal in calendars %}
+	{{cal.slug|replace:"-,_"}}_events_source =  {
+       events:function(start, end, callback) {
+            $.ajax({
+                url: '{% url month_calendar_json cal.slug%}',
+                dataType: 'json',
+                data: {
+                    start: Math.round(start.getTime() / 1000),
+                },
+                success: function(doc) {
+                    var events = [];
+                    for(var i=0; i<doc.length; i++) {
+                        events.push({
+                            title: doc[i].title,
+                            start: doc[i].start,
+                            end: doc[i].end,
+                            allDay: doc[i].allDay,
+                        });
+                    }
+                    callback(events);
+                    $.ajax({
+                        url: '{% url month_calendar_html cal.slug%}',
+                        dataType: 'html',
+                        data: {
+                            start: Math.round(start.getTime() / 1000),
+                        },
+                        success: function(doc) {
+                             $("#allEvents").append(doc);
+                        }
+                    });
+                }
+            });
+        },
+        color: '{{cal.color}}',
+        textColor: 'black',
+        error: function() {
+            alert('there was an error while fetching events!');
+        }
+    };
+	{% endfor %}
+	
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    
+	$('#calendar').fullCalendar({
+		timeFormat: 'H(:mm)',
+		firstDay : 1 ,//monday
+		weekMode : 'variable',
+		year: {{date.year}},
+		month: {{date.month}}-1,
+		header: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'month,agendaWeek,agendaDay'
+		},
+		editable: true,
+		selectable: true,
+		selectHelper: true,
+		select: function(startDate, endDate, allDay) {
+			console.log(startDate);
+			console.log(endDate);
+		},
+	    dayClick: function(date, allDay, jsEvent, view) {
+			console.log(date);
+	    },
+	    eventClick: function(calEvent, jsEvent, view) {
+	    	console.log(calEvent);
+	    },
+	    
+	    eventSources: [
+           {% for cal in calendars %}
+           {{cal.slug|replace:"-,_"}}_events_source,
+           {% endfor %}
+	    ],
+	});
+	
+	$(".calActivator").change(function(){
+	    if($(this).is(':checked')){
+	        $('#calendar').fullCalendar('addEventSource', eval($(this).val()+"_events_source"));
+	    }
+	    else{
+	        $('#calendar').fullCalendar('removeEventSource', eval($(this).val()+"_events_source"));
+	        $('.'+$(this).val()+'_event').remove();
+	    }
+	});
+});
+</script>
+<style>
+{% for cal in calendars %}
+div.{{cal.slug|replace:"-,_"}}_event {
+    border-color: {{cal.color}};
+}
+{% endfor %}
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="info_panel" class="grid_2 alpha">
+<a href="{% url calendar_create %}" >Add a calendar</a>
+<h4>Calendar(s)</h4>
+<ul>
+{% for cal in calendars %}
+	<li><input class="calActivator" type="checkbox" value="{{cal.slug|replace:"-,_"}}" checked="checked"/>{{cal}}</li>
+{% empty %}
+	<li>No calendar</li>
+{% endfor %}
+</ul>
+</div>
+<div id="calendar_panel" class="grid_11">
+	<div id="calendar">
+	</div>
+</div>
+<div id="events_panel" class="grid_3 omega">
+    <p>
+    <a href="{% url calendar_create_event %}" >New event</a>
+    </p>
+    <div id="allEvents">
+    </div>
+</div>
+{% endblock %}
