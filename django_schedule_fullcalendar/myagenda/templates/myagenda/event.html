@@ -2,13 +2,20 @@
 <div onclick="location.href='';"  class="block event {{occ.event.calendar.slug|replace:'-,_'}}_event">
     <p>
 		Title : {{occ.title}} ({{occ.event.calendar}})
+        <a style="float: right;" href="
+        {%if not occ.event.rule %}
+            {% url edit_event occ.event.id %}?next={%url myagenda_home%}
+        {% else %}
+            {{occ.get_edit_url}}?next={%url myagenda_home%}
+        {% endif %}
+        ">[Edit]</a>
 		<a style="float: right;" href="
         {%if not occ.event.rule %}
             {% url delete_event occ.event.id %}?next={%url myagenda_home%}
         {% else %}
             {{occ.get_cancel_url}}?next={%url myagenda_home%}
         {% endif %}
-        ">[x]</a>
+        ">[Cancel]</a>
 	</p>
 		{% if occ.description %}
 		<p>Desc : {{occ.description}}</p>

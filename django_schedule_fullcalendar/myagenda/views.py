@@ -26,9 +26,15 @@ def home(request):
                                extra_context={'calendars' : calendars})
 
 
-def create_event(request, calendar_slug=None):
+def create_event(request):
     return create_or_edit_event(request,
-                                calendar_slug=calendar_slug,
+                                template_name='myagenda/event_form.html',
+                                form_class=MyEventForm,
+                                next='/')
+
+def edit_event(request, event_id):
+    return create_or_edit_event(request,
+                                event_id=event_id,
                                 template_name='myagenda/event_form.html',
                                 form_class=MyEventForm,
                                 next='/')

@@ -3,7 +3,7 @@ from schedule.feeds import UpcomingEventsFeed
 from schedule.feeds import CalendarICalendar
 from schedule.periods import Month
 
-from .views import create_event, create_rule
+from .views import create_event, create_rule, edit_event
 from myagenda.views import home, coerce_start_date_dict, occurrences_to_json, occurrences_to_html
 from django.views.generic.list_detail import object_list
 from myagenda.models import MyCalendar
@@ -69,15 +69,14 @@ urlpatterns = patterns('',
         name="myagenda_create_rule"),
 
     #Event Urls
+#    url(r'^event/(?P<event_id>\d+)/$',
+#        'schedule.views.event',
+#        name="event"),
     url(r'^event/create/',
         create_event,
         name="calendar_create_event"),
-
-    url(r'^event/(?P<event_id>\d+)/$',
-        'schedule.views.event',
-        name="event"),
-    url(r'^event/(?P<event_id>\d+)/edit/$',
-        'schedule.views.create_or_edit_event',
+    url(r'^event/edit/(?P<event_id>\d+)/$',
+        edit_event,
         name='edit_event'),
 
     url(r'^event/(?P<event_id>\d+)/delete/$',
@@ -86,9 +85,9 @@ urlpatterns = patterns('',
         name="delete_event"),
 
     #urls for already persisted occurrences
-    url(r'^occurrence/(?P<event_id>\d+)/(?P<occurrence_id>\d+)/$',
-        'schedule.views.occurrence',
-        name="occurrence"),
+#    url(r'^occurrence/(?P<event_id>\d+)/(?P<occurrence_id>\d+)/$',
+#        'schedule.views.occurrence',
+#        name="occurrence"),
     url(r'^occurrence/cancel/(?P<event_id>\d+)/(?P<occurrence_id>\d+)/$',
         'schedule.views.cancel_occurrence',
         name="cancel_occurrence"),
