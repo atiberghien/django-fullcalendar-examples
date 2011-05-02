@@ -15,7 +15,7 @@ div#form .errorlist li{
 div#form label {
 	display: inline-block;
 	float: left;
-	width: 80px;
+	width: 120px;
 	text-align: left;
 	vertical-align: middle;
 }

@@ -14,6 +14,8 @@
         $('#id_start_datetime_1').addClass('begin hour timepicker')
         $('#id_end_datetime_0').addClass('begin date datepicker')
         $('#id_end_datetime_1').addClass('begin hour timepicker')
+        $('#id_end_recurring_period_0').addClass('begin date datepicker')
+        $('#id_end_recurring_period_1').addClass('begin hour timepicker')
  		
   		$('.toggle_button').click(function() {
   			$(this).parent().next().slideToggle('slow');
@@ -108,7 +110,12 @@
 		</div>
 		<div class="block">
             <p>
-                <label>Repetition</label>{{form.rule}}<a href="{% url myagenda_create_rule %}">[+]</a>
+                {{form.end_recurring_period.label_tag}}
+                {{form.end_recurring_period}}
+                {{form.end_recurring_period.errors}}
+            </p>
+            <p>
+                <label>Repetition rule</label>{{form.rule}}<a href="{% url myagenda_create_rule %}">[+]</a>
             </p>
 		</div>
 	</div>

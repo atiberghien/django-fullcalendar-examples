@@ -4,6 +4,8 @@ from schedule.forms import EventForm, RuleForm
 from schedule.models.rules import Rule
 
 class MyEventForm(EventForm):
+    end_recurring_period = forms.DateTimeField(widget=forms.SplitDateTimeWidget, required=False)
+
     def __init__(self, hour24=False, *args, **kwargs):
         super(MyEventForm, self).__init__(*args, **kwargs)
 
@@ -14,6 +16,7 @@ class MyEventForm(EventForm):
                   'end',
                   'title',
                   'description',
+                  'end_recurring_period',
                   'rule')
 
         exclude = ('creator', 'created_on')
