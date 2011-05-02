@@ -4,9 +4,9 @@
 		Title : {{occ.title}} ({{occ.event.calendar}})
 		<a style="float: right;" href="
         {%if not occ.event.rule %}
-            {% url delete_event occ.event.id %}
+            {% url delete_event occ.event.id %}?next={%url myagenda_home%}
         {% else %}
-            {{occ.get_cancel_url}}
+            {{occ.get_cancel_url}}?next={%url myagenda_home%}
         {% endif %}
         ">[x]</a>
 	</p>
