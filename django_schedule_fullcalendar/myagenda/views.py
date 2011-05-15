@@ -9,7 +9,7 @@ from schedule.views import create_or_edit_event, calendar_by_periods
 from django.utils import simplejson
 from schedule.periods import Month
 from myagenda.models import MyCalendar
-from datetime import datetime
+from datetime import datetime, timedelta
 from schedule.utils import encode_occurrence
 from settings import CHECK_PERMISSION_FUNC
 from django.template import Context, loader
@@ -54,18 +54,13 @@ def create_rule(request, template_name):
                               context_instance=RequestContext(request))
 
 
-def coerce_start_date_dict(date_dict):
-    try:
-        datetime = float(date_dict.get("start"))
-        datetime = datetime.fromtimestamp(datetime)
-        return {'year': datetime.date.year,
-                'month': datetime.date.month,
-                'day': datetime.date.day,
-                'hour': datetime.time.hour,
-                'minute': datetime.time.minute,
-                'second': datetime.time.second}
-    except:
-        return {}
+def coerce_dates_dict(date_dict):
+    start = float(date_dict.get("start"))
+    start = datetime.fromtimestamp(start) + timedelta(days=1)
+    end = float(date_dict.get("end"))
+    end = datetime.fromtimestamp(end)
+    return (start, end)
+
 
 def occurrences_to_json(occurrences, user):
     occ_list = []
@@ -82,7 +77,6 @@ def occurrences_to_json(occurrences, user):
             'description':occ.description.replace('\n', '\\n'),
             'allDay':False,
         })
-    if occurrences : print occurrences[0].end
     return simplejson.dumps(occ_list)
 
 def occurrences_to_html(occurences, user):

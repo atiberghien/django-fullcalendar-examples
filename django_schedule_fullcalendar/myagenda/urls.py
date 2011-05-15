@@ -4,7 +4,7 @@ from schedule.feeds import CalendarICalendar
 from schedule.periods import Month
 
 from .views import create_event, create_rule, edit_event
-from myagenda.views import home, coerce_start_date_dict, occurrences_to_json, occurrences_to_html
+from myagenda.views import home, coerce_dates_dict, occurrences_to_json, occurrences_to_html
 from django.views.generic.list_detail import object_list
 from myagenda.models import MyCalendar
 from django.views.generic.create_update import create_object
@@ -125,16 +125,16 @@ urlpatterns = patterns('',
         'schedule.views.calendar_by_periods_json',
         name="month_calendar_json",
         kwargs={'periods': [Month],
-                'nb_periods':2,
-                'coerce_date_func':coerce_start_date_dict,
+                'nb_periods':1,
+                'coerce_date_func':coerce_dates_dict,
                 'serialize_occurrences_func':occurrences_to_json}),
 
     url(r'^ajax/(?P<calendar_slug>[-\w]+)/month/html/$',
         'schedule.views.calendar_by_periods_json',
         name="month_calendar_html",
         kwargs={'periods': [Month],
-                'nb_periods':2,
-                'coerce_date_func':coerce_start_date_dict,
+                'nb_periods':1,
+                'coerce_date_func':coerce_dates_dict,
                 'serialize_occurrences_func':occurrences_to_html}),
 
     url(r'^ajax/edit_event/(?P<calendar_slug>[-\w]+)/$',

@@ -12,6 +12,7 @@ $(document).ready(function() {
                 dataType: 'json',
                 data: {
                     start: Math.round(start.getTime() / 1000),
+                    end: Math.round(end.getTime() / 1000),
                 },
                 success: function(doc) {
                     var events = [];
@@ -29,6 +30,7 @@ $(document).ready(function() {
                         dataType: 'html',
                         data: {
                             start: Math.round(start.getTime() / 1000),
+                            end: Math.round(end.getTime() / 1000),
                         },
                         success: function(doc) {
                         	 $('.{{cal.slug|replace:"-,_"}}_event').remove();
@@ -84,14 +86,16 @@ $(document).ready(function() {
 	});
 	
 	$(".calActivator").change(function(){
+		$('.'+$(this).val()+'_event').remove();
 	    if($(this).is(':checked')){
 	        $('#calendar').fullCalendar('addEventSource', eval($(this).val()+"_events_source"));
 	    }
 	    else{
 	        $('#calendar').fullCalendar('removeEventSource', eval($(this).val()+"_events_source"));
-	        $('.'+$(this).val()+'_event').remove();
 	    }
 	});
+	
+	$("div#events_panel").css('height', $("div#calendar").height());
 });
 </script>
 <style>
@@ -119,7 +123,7 @@ div.{{cal.slug|replace:"-,_"}}_event {
 	<div id="calendar">
 	</div>
 </div>
-<div id="events_panel" class="grid_3 omega">
+<div id="events_panel" class="grid_3 omega" style="overflow:auto;">
     <p>
     <a href="{% url calendar_create_event %}" >New event</a>
     </p>
