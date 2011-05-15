@@ -69,9 +69,9 @@ urlpatterns = patterns('',
         name="myagenda_create_rule"),
 
     #Event Urls
-#    url(r'^event/(?P<event_id>\d+)/$',
-#        'schedule.views.event',
-#        name="event"),
+    url(r'^event/(?P<event_id>\d+)/$',
+        'schedule.views.event',
+        name="event"),
     url(r'^event/create/',
         create_event,
         name="calendar_create_event"),

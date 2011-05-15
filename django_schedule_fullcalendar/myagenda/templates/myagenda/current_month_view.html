@@ -31,6 +31,7 @@ $(document).ready(function() {
                             start: Math.round(start.getTime() / 1000),
                         },
                         success: function(doc) {
+                        	 $('.{{cal.slug|replace:"-,_"}}_event').remove();
                              $("#allEvents").append(doc);
                         }
                     });
