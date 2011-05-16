@@ -55,10 +55,16 @@ def create_rule(request, template_name):
 
 
 def coerce_dates_dict(date_dict):
-    start = float(date_dict.get("start"))
-    start = datetime.fromtimestamp(start) + timedelta(days=1)
-    end = float(date_dict.get("end"))
-    end = datetime.fromtimestamp(end)
+    try:
+        start = float(date_dict.get("start"))
+        start = datetime.fromtimestamp(start) + timedelta(days=1)
+    except:
+        start = datetime.now()
+    try:
+        end = float(date_dict.get("end"))
+        end = datetime.fromtimestamp(end)
+    except:
+        end = None
     return (start, end)
 
 
