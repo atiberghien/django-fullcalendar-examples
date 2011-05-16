@@ -68,6 +68,9 @@ $(document).ready(function() {
 		selectable: true, //Allows a user to highlight multiple days or timeslots by clicking and dragging.
 		selectHelper: true,
 		select: function(startDate, endDate, allDay) {
+			startDate.setHours(12);
+			endDate.setHours(12);
+			//FIXME : the JS time and the serve time are different
 			var start =  Math.round(startDate.getTime() / 1000);
 			var end =  Math.round(endDate.getTime() / 1000);
 			var url = '{% url calendar_create_event %}?start='+start
@@ -77,9 +80,10 @@ $(document).ready(function() {
 			jQuery.facebox({ ajax: url })
 		},
 	    dayClick: function(date, allDay, jsEvent, view) {
+	    	//NOT USED
 	    },
 	    eventClick: function(calEvent, jsEvent, view) {
-	    	console.log("eventClick");
+	    	//NOT USED
 	    },
 	    
 	    eventSources: [
