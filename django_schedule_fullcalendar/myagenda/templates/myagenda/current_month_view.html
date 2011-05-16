@@ -96,6 +96,15 @@ $(document).ready(function() {
 	});
 	
 	$("div#events_panel").css('height', $("div#calendar").height());
+	
+    $("a#new_event_link").facebox({
+    		loadingImage : '{{MEDIA_URL}}/css/facebox/closelabel.png',
+    		closeImage   : '{{MEDIA_URL}}/css/facebox/closelabel.png',
+    }) ;
+    
+    $(document).bind('afterClose.facebox', function() {
+    	$('#calendar').fullCalendar( 'refresh' );
+    });
 });
 </script>
 <style>
@@ -125,7 +134,7 @@ div.{{cal.slug|replace:"-,_"}}_event {
 </div>
 <div id="events_panel" class="grid_3 omega" style="overflow:auto;">
     <p>
-    <a href="{% url calendar_create_event %}" >New event</a>
+    <a id="new_event_link" href="{% url calendar_create_event %}" >New event</a>
     </p>
     <div id="allEvents">
     </div>
