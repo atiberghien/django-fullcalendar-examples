@@ -65,17 +65,21 @@ $(document).ready(function() {
 			right: 'month,agendaWeek,agendaDay'
 		},
 		editable: true,
-		selectable: true,
+		selectable: true, //Allows a user to highlight multiple days or timeslots by clicking and dragging.
 		selectHelper: true,
 		select: function(startDate, endDate, allDay) {
-			console.log(startDate);
-			console.log(endDate);
+			var start =  Math.round(startDate.getTime() / 1000);
+			var end =  Math.round(endDate.getTime() / 1000);
+			var url = '{% url calendar_create_event %}?start='+start
+			if (start != end){
+				url += '&end='+end
+			}
+			jQuery.facebox({ ajax: url })
 		},
 	    dayClick: function(date, allDay, jsEvent, view) {
-			console.log(date);
 	    },
 	    eventClick: function(calEvent, jsEvent, view) {
-	    	console.log(calEvent);
+	    	console.log("eventClick");
 	    },
 	    
 	    eventSources: [

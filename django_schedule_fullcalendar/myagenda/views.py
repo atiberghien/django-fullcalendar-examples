@@ -30,6 +30,7 @@ def create_event(request):
     return create_or_edit_event(request,
                                 template_name='myagenda/event_form.html',
                                 form_class=MyEventForm,
+                                coerce_date_func=coerce_dates_dict,
                                 next='/')
 
 def edit_event(request, event_id):
