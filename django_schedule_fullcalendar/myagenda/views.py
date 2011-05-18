@@ -11,9 +11,10 @@ from schedule.periods import Month
 from myagenda.models import MyCalendar
 from datetime import datetime, timedelta
 from schedule.utils import encode_occurrence
-from settings import CHECK_PERMISSION_FUNC
 from django.template import Context, loader
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/login/')
 def home(request):
     calendars = MyCalendar.objects.all()
     if calendars.count() == 0:
@@ -78,7 +79,6 @@ def occurrences_to_json(occurrences, user):
             'title' : occ.title,
             'start' : occ.start.isoformat(),
             'end': occ.end.isoformat(),
-            'read_only':not CHECK_PERMISSION_FUNC(occ, user),
             'recurring':bool(occ.event.rule),
             'persisted':bool(original_id),
             'description':occ.description.replace('\n', '\\n'),

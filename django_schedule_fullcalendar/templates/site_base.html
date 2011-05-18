@@ -28,6 +28,9 @@
 <body>
 {% block body %}
 <div class="container_16">
+{% if user.is_authenticated %}
+You are logged as {{user}}.    
+{% endif %}
 {% block content %}{% endblock %}
 </div>
 

@@ -10,6 +10,9 @@ from myagenda.models import MyCalendar
 from django.views.generic.create_update import create_object
 
 urlpatterns = patterns('',
+
+    (r'^login/$', 'django.contrib.auth.views.login',
+     {'template_name': 'myagenda/login.html'}),
     url(r'^$', home, name="myagenda_home"),
 
     url(r'^calendar/create/$',
