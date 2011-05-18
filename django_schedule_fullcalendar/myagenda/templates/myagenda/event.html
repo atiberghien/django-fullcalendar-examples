@@ -2,6 +2,7 @@
 <div onclick="location.href='';"  class="block event {{occ.event.calendar.slug|replace:'-,_'}}_event">
     <p>
 		Title : {{occ.title}} ({{occ.event.calendar}})
+        <!-- 
         <a style="float: right;" href="
         {%if not occ.event.rule %}
             {% url edit_event occ.event.id %}?next={%url myagenda_home%}
@@ -16,6 +17,7 @@
             {{occ.get_cancel_url}}?next={%url myagenda_home%}
         {% endif %}
         ">[Cancel]</a>
+        -->
 	</p>
 		{% if occ.description %}
 		<p>Desc : {{occ.description}}</p>
