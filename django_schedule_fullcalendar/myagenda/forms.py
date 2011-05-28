@@ -1,10 +1,13 @@
 from django import forms
-from .models import MyEvent
+from .models import MyEvent, MyCalendar
 from schedule.forms import EventForm, RuleForm
 from schedule.models.rules import Rule
 
 class MyEventForm(EventForm):
     end_recurring_period = forms.DateTimeField(widget=forms.SplitDateTimeWidget, required=False)
+    calendar = forms.ModelChoiceField(queryset=MyCalendar.objects.all(),
+                                      empty_label=None,
+                                      required=True)
 
     def __init__(self, hour24=False, *args, **kwargs):
         super(MyEventForm, self).__init__(*args, **kwargs)
