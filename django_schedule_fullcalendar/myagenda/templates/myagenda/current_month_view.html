@@ -17,11 +17,14 @@ $(document).ready(function() {
                 success: function(doc) {
                     var events = [];
                     for(var i=0; i<doc.length; i++) {
+                    	if(doc[i].cancelled);
                         events.push({
+                        	id : doc[i].id,
                             title: doc[i].title,
                             start: doc[i].start,
                             end: doc[i].end,
                             allDay: doc[i].allDay,
+                            backgroundColor : doc[i].cancelled ? "grey" : "{{cal.color}}"
                         });
                     }
                     callback(events);

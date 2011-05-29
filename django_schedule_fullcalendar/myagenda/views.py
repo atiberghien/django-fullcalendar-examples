@@ -83,6 +83,7 @@ def occurrences_to_json(occurrences, user):
             'persisted':bool(original_id),
             'description':occ.description.replace('\n', '\\n'),
             'allDay':False,
+            'cancelled' : occ.cancelled
         })
     return simplejson.dumps(occ_list)
 
