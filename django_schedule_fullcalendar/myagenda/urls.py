@@ -120,10 +120,6 @@ urlpatterns = patterns('',
     # AJAX API
 
     #url for occurrences by encoded data
-    url(r'^ajax/occurrence/edit_by_code/$',
-        'schedule.views.ajax_edit_occurrence_by_code',
-        name="ajax_edit_occurrence_by_code"),
-
     url(r'^ajax/(?P<calendar_slug>[-\w]+)/month/json/$',
         'schedule.views.calendar_by_periods_json',
         name="month_calendar_json",
@@ -140,9 +136,13 @@ urlpatterns = patterns('',
                 'coerce_date_func':coerce_dates_dict,
                 'serialize_occurrences_func':occurrences_to_html}),
 
-    url(r'^ajax/edit_event/(?P<calendar_slug>[-\w]+)/$',
-        'schedule.views.ajax_edit_event',
-        name="ajax_edit_event"),
+    url(r'^ajax/occurrence/edit_by_code/$',
+        'schedule.views.ajax_edit_occurrence_by_code',
+        name="ajax_edit_occurrence_by_code"),
+
+#    url(r'^ajax/edit_event/(?P<calendar_slug>[-\w]+)/$',
+#        'schedule.views.ajax_edit_event',
+#        name="ajax_edit_event"),
 
     url(r'^event_json/$',
         'schedule.views.event_json',
