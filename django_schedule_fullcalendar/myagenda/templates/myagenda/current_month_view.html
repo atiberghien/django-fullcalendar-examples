@@ -11,8 +11,8 @@ $(document).ready(function() {
                 url: '{% url month_calendar_json cal.slug%}',
                 dataType: 'json',
                 data: {
-                    start: Math.round(start.getTime() / 1000),
-                    end: Math.round(end.getTime() / 1000),
+                    start: Math.round(start.getTime()),
+                    end: Math.round(end.getTime()),
                 },
                 success: function(doc) {
                     var events = [];
@@ -29,8 +29,8 @@ $(document).ready(function() {
                         url: '{% url month_calendar_html cal.slug%}',
                         dataType: 'html',
                         data: {
-                            start: Math.round(start.getTime() / 1000),
-                            end: Math.round(end.getTime() / 1000),
+                            start: Math.round(start.getTime()),
+                            end: Math.round(end.getTime()),
                         },
                         success: function(doc) {
                         	 $('.{{cal.slug|replace:"-,_"}}_event').remove();
@@ -67,25 +67,29 @@ $(document).ready(function() {
 		editable: true,
 		selectable: true, //Allows a user to highlight multiple days or timeslots by clicking and dragging.
 		selectHelper: true,
-		select: function(startDate, endDate, allDay) {
-			startDate.setHours(12);
-			endDate.setHours(12);
-			//FIXME : the JS time and the serve time are different
-			var start =  Math.round(startDate.getTime() / 1000);
-			var end =  Math.round(endDate.getTime() / 1000);
+		select: function(startDate, endDate, allDay, jsEvent, view ) {
+			if(view.name='month'){
+				startDate.setHours(12);
+				startDate.setMinutes(00);
+				endDate.setHours(12);
+				endDate.setMinutes(30);
+			}
+			var start =  Math.round(startDate.getTime());
+			var end =  Math.round(endDate.getTime());
 			var url = '{% url calendar_create_event %}?start='+start
 			if (start != end){
 				url += '&end='+end
 			}
 			jQuery.facebox({ ajax: url })
 		},
-	    dayClick: function(date, allDay, jsEvent, view) {
-	    	//NOT USED
+	    eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
+
+	        alert(
+	            "The end date of " + event.title + "has been moved " +
+	            dayDelta + " days and " +
+	            minuteDelta + " minutes."
+	        );
 	    },
-	    eventClick: function(calEvent, jsEvent, view) {
-	    	//NOT USED
-	    },
-	    
 	    eventSources: [
            {% for cal in calendars %}
            {{cal.slug|replace:"-,_"}}_events_source,

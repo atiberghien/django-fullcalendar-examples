@@ -59,12 +59,12 @@ def create_rule(request, template_name):
 def coerce_dates_dict(date_dict):
     try:
         start = float(date_dict.get("start"))
-        start = datetime.fromtimestamp(start)
+        start = datetime.fromtimestamp(start // 1000)
     except:
         start = datetime.now()
     try:
         end = float(date_dict.get("end"))
-        end = datetime.fromtimestamp(end)
+        end = datetime.fromtimestamp(end // 1000)
     except:
         end = None
     return (start, end)
