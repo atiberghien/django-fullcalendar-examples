@@ -6,3 +6,14 @@ django-guardian
 -e git+https://github.com/atiberghien/django-agenda.git#egg=django-agenda
 -e hg+https://bitbucket.org/neithere/django-autoslug#egg=django-autoslug
 -e git+http://github.com/django-extensions/django-extensions.git#egg=django-extensions
+
+
+django-pagination
+-e git+https://github.com/ixc/glamkit-eventtools.git@api-tidy#egg=glamkit-eventtools
+-e git://github.com/django-mptt/django-mptt.git@384b1#egg=mptt
+-e git://github.com/ixc/glamkit-convenient.git@4df74828d1a9d18ef97e#egg=glamkit-convenient
+-e git+git://github.com/ixc/django-jsonfield.git#egg=jsonfield
+FeinCMS==1.3.1
+
+
+
