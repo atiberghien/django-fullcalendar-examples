@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load strings %}
+{% load scheduletags %}
 
 {% block htmlheader %}
 <script type='text/javascript'>
@@ -79,7 +80,7 @@ $(document).ready(function() {
 			}
 			var start =  Math.round(startDate.getTime());
 			var end =  Math.round(endDate.getTime());
-			var url = '{% url calendar_create_event %}?start='+start
+			var url = '{% url calendar_create_event current_calendar.slug %}?start='+start
 			if (start != end){
 				url += '&end='+end
 			}
@@ -92,6 +93,10 @@ $(document).ready(function() {
 	            dayDelta + " days and " +
 	            minuteDelta + " minutes."
 	        );
+	    },
+	    eventClick: function(event, element) {
+	    	console.log(event)
+ 	    	//jQuery.facebox({ ajax: "{%url ajax_edit_occurrence_by_code%}?id="+event.id});
 	    },
 	    eventSources: [
            {% for cal in calendars %}
@@ -125,8 +130,15 @@ $(document).ready(function() {
     $(document).bind('afterClose.facebox', function() {
     	$('#calendar').fullCalendar( 'refresh' );
     });
+    
+    $("#create_event_link").click(function(){
+    	var url = $(this).attr("href");
+    	$.facebox({ajax : url});
+    	return false;
+    })
 });
 </script>
+{% include "schedule/_dialogs.html" %}
 <style>
 {% for cal in calendars %}
 div.{{cal.slug|replace:"-,_"}}_event {
@@ -154,7 +166,7 @@ div.{{cal.slug|replace:"-,_"}}_event {
 </div>
 <div id="events_panel" class="grid_3 omega" style="overflow:auto;">
     <p>
-    <a id="new_event_link" href="{% url calendar_create_event %}" >New event</a>
+    {% create_event_url current_calendar now %}
     </p>
     <div id="allEvents">
     </div>

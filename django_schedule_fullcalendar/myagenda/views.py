@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 from schedule.utils import encode_occurrence
 from django.template import Context, loader
 from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
 
 @login_required(login_url='/login/')
 def home(request):
@@ -20,26 +21,15 @@ def home(request):
     if calendars.count() == 0:
         return HttpResponseRedirect(reverse("calendar_list"))
 
+    current_calendar = calendars[0]
+
     return calendar_by_periods(request,
                                calendars[0].slug,
                                periods=[Month],
                                template_name='myagenda/current_month_view.html',
-                               extra_context={'calendars' : calendars})
-
-
-def create_event(request):
-    return create_or_edit_event(request,
-                                template_name='myagenda/event_form.html',
-                                form_class=MyEventForm,
-                                coerce_date_func=coerce_dates_dict,
-                                next='/')
-
-def edit_event(request, event_id):
-    return create_or_edit_event(request,
-                                event_id=event_id,
-                                template_name='myagenda/event_form.html',
-                                form_class=MyEventForm,
-                                next='/')
+                               extra_context={'calendars' : calendars,
+                                              'current_calendar' : current_calendar,
+                                              'now' : datetime.now()})
 
 def create_rule(request, template_name):
     if request.method == "POST":
@@ -70,7 +60,7 @@ def coerce_dates_dict(date_dict):
     return (start, end)
 
 
-def occurrences_to_json(occurrences, user):
+def occurrences_to_json(request, occurrences, user):
     occ_list = []
     for occ in occurrences:
         original_id = occ.id
@@ -87,12 +77,7 @@ def occurrences_to_json(occurrences, user):
         })
     return simplejson.dumps(occ_list)
 
-def occurrences_to_html(occurences, user):
-    res = ""
-    for occ in occurences:
-        rnd = loader.get_template('myagenda/event.html')
-        resp = rnd.render(Context({'occ':occ}))
-        res += resp
-    return res
-
-
+def occurrences_to_html(request, occurences, user):
+    return render_to_string('myagenda/event.html',
+                            {'occurences':occurences},
+                            context_instance=RequestContext(request))

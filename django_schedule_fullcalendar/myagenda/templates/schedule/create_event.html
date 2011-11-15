@@ -1,4 +1,4 @@
-<form action="{% url calendar_create_event %}" method="post">{% csrf_token %}
+<form action="{% url calendar_create_event calendar.slug %}" method="post">{% csrf_token %}
 <div id="form">
 		<div class="block">
 			<p>

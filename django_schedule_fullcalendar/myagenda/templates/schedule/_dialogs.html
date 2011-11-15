@@ -1,0 +1,45 @@
+{{ block.super }}
+<script>
+function openCancelDialog(node, cancel_url, delete_url, event){
+  event.stopPropagation();
+  var btns = {"This":function(){openURL(cancel_url, event);}, 
+		      "All":function(){openURL(delete_url, event)}, 
+		      "Do nothing":function(){$(this).dialog("destroy");}};
+  dia = $("#delete_dialog").dialog({'buttons':btns, 'modal':true});
+  dia.dialog('open');
+  return false;
+}
+
+function openEditDialog(node, occurrence_url, event_url, event){
+  event.stopPropagation();
+  var btns = {"This":function(){openURL(occurrence_url, event);}, 
+		      "All":function(){openURL(event_url, event);}, 
+		      "Do nothing":function(){$(this).dialog("destroy");}};
+  dia = $("#edit_dialog").dialog({'buttons':btns, 'modal':true});
+  dia.dialog('open');
+  return false;
+}
+
+function openDetail(node){
+  var btns = { "Close":function(){$(this).dialog("destroy");}};
+  dia = $($(node).attr("href")).dialog({'buttons':btns, 'modal':true, 'title':'Details'});
+  dia.dialog('open');
+  return false;
+}
+
+function openURL(url, event){
+    event.stopPropagation();
+    $("#edit_dialog").dialog("destroy");
+    $("#edit_dialog").dialog("edit_dialog");
+    $.facebox({ajax : url});
+}
+</script>
+
+<div style="display:none;" id="delete_dialog" title="Question">
+  Do you want to cancel this occurrence or delete all occurrences of this event?
+</div>
+
+<div style="display:none;" id="edit_dialog" title="This is a recurring event">
+  Do you want to edit this occurrence or all occurrences?
+</div>
+
