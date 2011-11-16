@@ -1,0 +1,4 @@
+{% extends "schedule/create_event.html"%}
+
+
+{% block form_action %}{% url edit_event calendar.slug form.instance.id %}{% endblock%}

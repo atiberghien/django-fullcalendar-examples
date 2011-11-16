@@ -25,7 +25,8 @@ $(document).ready(function() {
                             start: doc[i].start,
                             end: doc[i].end,
                             allDay: doc[i].allDay,
-                            backgroundColor : doc[i].cancelled ? "grey" : "{{cal.color}}"
+                            backgroundColor : doc[i].cancelled ? "grey" : "{{cal.get_color_display}}",
+                            event_options : doc[i].event_options,
                         });
                     }
                     callback(events);
@@ -86,17 +87,32 @@ $(document).ready(function() {
 			}
 			jQuery.facebox({ ajax: url })
 		},
-	    eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
+	    eventClick: function(event, element) {
+	    	var currentEvent = $(element.currentTarget);
+	    	var options = $(event.event_options);
+	    	currentEvent.find(".actions").remove();
+	    	options.css('background-color', 'white');
+	    	currentEvent.find(".fc-event-inner").append(options);
+	    	currentEvent.mouseleave(function(){
+	    		options.remove();
+	    	});
+	    },
+	    eventDrop: function(event,dayDelta,minuteDelta) {
+
+	        alert(
+	            event.title + " was moved " +
+	            dayDelta + " days and " +
+	            minuteDelta + " minutes."
+	        );
+
+	    },
+	    eventResize: function(event,dayDelta,minuteDelta) {
 
 	        alert(
 	            "The end date of " + event.title + "has been moved " +
 	            dayDelta + " days and " +
 	            minuteDelta + " minutes."
 	        );
-	    },
-	    eventClick: function(event, element) {
-	    	console.log(event)
- 	    	//jQuery.facebox({ ajax: "{%url ajax_edit_occurrence_by_code%}?id="+event.id});
 	    },
 	    eventSources: [
            {% for cal in calendars %}
@@ -145,6 +161,9 @@ div.{{cal.slug|replace:"-,_"}}_event {
     border-color: {{cal.color}};
 }
 {% endfor %}
+span.actions {
+	float: right;
+}
 </style>
 {% endblock %}
 

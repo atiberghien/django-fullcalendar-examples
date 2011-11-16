@@ -1,0 +1,94 @@
+<script type="text/javascript">
+        $(document).ready(function(){
+            
+        $('#id_start_0').addClass('begin date datepicker')
+        $('#id_end_0').addClass('begin date datepicker')
+        $('#id_start_1').addClass('begin hour timepicker')
+        $('#id_end_1').addClass('begin hour timepicker')
+        $('#id_start_datetime_0').addClass('begin date datepicker')
+        $('#id_start_datetime_1').addClass('begin hour timepicker')
+        $('#id_end_datetime_0').addClass('begin date datepicker')
+        $('#id_end_datetime_1').addClass('begin hour timepicker')
+        $('#id_end_recurring_period_0').addClass('begin date datepicker')
+        $('#id_end_recurring_period_1').addClass('begin hour timepicker')
+        
+        $('.toggle_button').click(function() {
+            $(this).parent().next().slideToggle('slow');
+        });
+        /*
+        $('input#all_day').change(function() {
+            if($(this).is(":checked")) {
+                $(".date").attr("disabled", "disabled")
+                $(".hour").attr("disabled", "disabled")
+            }
+            else {
+                $(".date").removeAttr("disabled");
+                $(".hour").removeAttr("disabled");
+            }
+        });
+        */
+        // Datepicker
+        $(".datepicker").datepicker({
+            showOn: "both",
+            buttonImage: "{{MEDIA_URL}}img/calendar.gif",
+            buttonImageOnly: true
+        });
+
+        // http://fgelinas.com/code/timepicker/timepicker.html
+        $('.timepicker').timepicker ();
+        // Increment or Decrement count value ; interval value
+        
+        {% if has_recurrence%}
+            $("input[name=recurrence]").click();
+        {% endif %}
+    });
+</script>
+<form action="{% block form_action %}{{ occurrence.get_edit_url }}?next=/{%endblock%}" method="post">{% csrf_token %}
+<div id="form">
+		<div class="block">
+			<p>
+				{{form.title.label_tag}}
+				{{form.title}}
+				{{form.title.errors}}
+			</p>
+            <p>
+                {{form.calendar.label_tag}}
+                {{form.calendar}}
+                {{form.calendar.errors}}
+            </p>
+			<p> 
+				{{form.description.label_tag}}<a class="toggle_button" href="#">>></a>
+			</p>
+			<div style="display: none;">
+				{{form.description}}
+			</div>
+		</div>
+		<div class="block">
+
+			<p>
+				<label>Date </label><br />
+			</p>
+            <!-- 
+			<p>
+				<label>All Day </label>
+				<input id="all_day" name="all_day" type="checkbox" />
+			</p>
+             -->
+			<p>
+				{{form.start.label_tag}}
+				{{form.start}}
+				{{form.start.errors}}
+					
+			</p>
+			<p>
+				{{form.end.label_tag}}
+				{{form.end}}
+				{{form.end.errors}}
+			</p>
+			{% block recurrence %}
+			{% endblock%}
+		</div>
+	</div>
+	<input type="submit" value="Create" />
+</form>
+

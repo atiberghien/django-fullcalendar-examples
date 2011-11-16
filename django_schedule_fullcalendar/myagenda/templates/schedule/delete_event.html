@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load scheduletags %}
+
+<h1>{% trans "Delete" %}</h1>
+{% trans "Are you sure that you really want to delete this event?" %}
+
+<form action="{% url delete_event object.id %}" method="POST">{% csrf_token %}
+    {% detail object %} <br/>
+    <input type="submit" value="{% trans "Delete" %}" name="submit" />
+    <input type="button" value="{% trans "Cancel" %}" onclick="window.location='{{next}}'"/>
+    <input type="hidden" name="next" value="/"/>
+</form>

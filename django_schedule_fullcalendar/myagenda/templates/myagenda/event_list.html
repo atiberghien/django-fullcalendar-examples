@@ -2,16 +2,15 @@
 {% load scheduletags %}
 
 {% for occ in occurences %}
-<div onclick="location.href='';"  
-     class="block event {{occ.event.calendar.slug|replace:'-,_'}}_event" 
+<div class="block event {{occ.event.calendar.slug|replace:'-,_'}}_event" 
      style="{% if occ.cancelled %}background-color: grey;{% endif %}">
     <p>
         {% title occ %}
-        {% options occ%}
+        {% options occ %}
 	</p>
-		{% if occ.description %}
-		<p>Desc : {{occ.description}}</p>
-		{% endif %}
+	{% if occ.description %}
+	<p><em>Description : {{occ.description}}</em></p>
+	{% endif %}
 	<p>
 		Begins the {{occ.start.date}} at {{occ.start.time}}	
 	</p>
