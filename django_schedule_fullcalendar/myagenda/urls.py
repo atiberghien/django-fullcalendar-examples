@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
-from schedule.feeds import UpcomingEventsFeed
-from schedule.feeds import CalendarICalendar
+#from schedule.feeds import UpcomingEventsFeed
+#from schedule.feeds import CalendarICalendar
 from schedule.periods import Month
 
 from .views import create_rule
@@ -50,18 +50,20 @@ urlpatterns = patterns('',
     url(r'^event/edit/(?P<calendar_slug>[-\w]+)/(?P<event_id>\d+)/$',
         'schedule.views.create_or_edit_event',
         {'form_class' : MyEventForm,
+         'template_name' : 'myagenda/edit_event.html',
          'next' : '/'},
         name='edit_event'),
 
     url(r'^event/(?P<event_id>\d+)/delete/$',
         'schedule.views.delete_event',
-        {'next': 'next'},
+        {'next': '/'},
         name="delete_event"),
 
     #urls for already persisted occurrences
-#    url(r'^occurrence/(?P<event_id>\d+)/(?P<occurrence_id>\d+)/$',
-#        'schedule.views.occurrence',
-#        name="occurrence"),
+    url(r'^occurrence/(?P<event_id>\d+)/(?P<occurrence_id>\d+)/$',
+        'schedule.views.occurrence',
+        name="occurrence"), 
+                       
     url(r'^occurrence/cancel/(?P<event_id>\d+)/(?P<occurrence_id>\d+)/$',
         'schedule.views.cancel_occurrence',
         name="cancel_occurrence"),

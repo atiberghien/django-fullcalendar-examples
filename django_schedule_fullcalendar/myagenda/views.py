@@ -1,19 +1,19 @@
 # Create your views here.
 
-from .forms import MyEventForm, MyRuleForm
-from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template.context import RequestContext
-from schedule.views import create_or_edit_event, calendar_by_periods
-from django.utils import simplejson
-from schedule.periods import Month
-from myagenda.models import MyCalendar
-from datetime import datetime, timedelta
-from schedule.utils import encode_occurrence
-from django.template import Context, loader
+from .forms import MyRuleForm
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
+from django.template.context import RequestContext
 from django.template.loader import render_to_string
+from django.utils import simplejson
+from django.utils.html import strip_spaces_between_tags as short
+from myagenda.models import MyCalendar
+from schedule.periods import Month
+from schedule.utils import encode_occurrence
+from schedule.views import calendar_by_periods
 
 @login_required(login_url='/login/')
 def home(request):
@@ -31,6 +31,7 @@ def home(request):
                                               'current_calendar' : current_calendar,
                                               'now' : datetime.now()})
 
+@login_required(login_url='/login/')
 def create_rule(request, template_name):
     if request.method == "POST":
         rule_form = MyRuleForm(request.POST)
@@ -59,7 +60,7 @@ def coerce_dates_dict(date_dict):
         end = None
     return (start, end)
 
-
+@login_required(login_url='/login/')
 def occurrences_to_json(request, occurrences, user):
     occ_list = []
     for occ in occurrences:
@@ -73,11 +74,15 @@ def occurrences_to_json(request, occurrences, user):
             'persisted':bool(original_id),
             'description':occ.description.replace('\n', '\\n'),
             'allDay':False,
-            'cancelled' : occ.cancelled
+            'cancelled' : occ.cancelled,
+            'event_options' : short(render_to_string("myagenda/event_options_wrapper.html", 
+                                               {'occ' : occ}, 
+                                               context_instance=RequestContext(request)))
         })
     return simplejson.dumps(occ_list)
 
+@login_required(login_url='/login/')
 def occurrences_to_html(request, occurences, user):
-    return render_to_string('myagenda/event.html',
+    return short(render_to_string('myagenda/event_list.html',
                             {'occurences':occurences},
-                            context_instance=RequestContext(request))
+                            context_instance=RequestContext(request)))
