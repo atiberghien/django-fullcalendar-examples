@@ -3,6 +3,5 @@ python-dateutil==1.5
 vobject
 django-guardian
 -e git+https://github.com/atiberghien/django-schedule.git@ajax_ui#egg=django-schedule
--e git+https://github.com/atiberghien/django-agenda.git#egg=django-agenda
 -e hg+https://bitbucket.org/neithere/django-autoslug#egg=django-autoslug
 -e git+http://github.com/django-extensions/django-extensions.git#egg=django-extensions
