@@ -4,9 +4,9 @@ from schedule.models import Event
 from schedule.models.calendars import Calendar
 
 COLOR_TYPE = (
-    ('blue', 'blue'),
-    ('red', 'red'),
-    ('yellow' , 'yellow'),
+    ('blue', '#1EB2DE'),
+    ('red', '#EF4023'),
+    ('yellow' , '#FFD52F'),
 )
 class MyCalendar(Calendar):
     color = models.CharField(max_length=6, choices=COLOR_TYPE)

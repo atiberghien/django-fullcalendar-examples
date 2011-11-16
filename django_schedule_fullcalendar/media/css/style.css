@@ -9,7 +9,7 @@ div.block {
 
 p {
 	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 }
 
 .block p {
@@ -26,4 +26,9 @@ ul {
 	padding-left: 10px;
 	list-style: none;
 	font-size: 12px;	
+}
+
+span.title {
+	font-size: 14px;
+	font-weight: bold;
 }
