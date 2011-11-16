@@ -45,7 +45,7 @@ $(document).ready(function() {
                 }
             });
         },
-        color: '{{cal.color}}',
+        color: '{{cal.get_color_display}}',
         textColor: 'black',
         error: function() {
             alert('there was an error while fetching events!');
@@ -173,7 +173,7 @@ span.actions {
 <h4>Calendar(s)</h4>
 <ul>
 {% for cal in calendars %}
-	<li><input class="calActivator" type="checkbox" value="{{cal.slug|replace:"-,_"}}" checked="checked"/>{{cal}}</li>
+	<li style="background-color: {{cal.get_color_display}} "><input class="calActivator" type="checkbox" value="{{cal.slug|replace:"-,_"}}" checked="checked"/>{{cal}}</li>
 {% empty %}
 	<li>No calendar</li>
 {% endfor %}
