@@ -19,7 +19,7 @@ $(document).ready(function() {
                 success: function(doc) {
                     var events = [];
                     for(var i=0; i<doc.length; i++) {
-                    	if(doc[i].cancelled);
+                    	$('#calendar').fullCalendar( 'removeEvents', doc[i].id);
                         events.push({
                         	id : doc[i].id,
                             title: doc[i].title,
@@ -73,6 +73,9 @@ $(document).ready(function() {
 		editable: true,
 		selectable: true, //Allows a user to highlight multiple days or timeslots by clicking and dragging.
 		selectHelper: true,
+		viewDisplay: function(view) {
+			$('#calendar').fullCalendar( 'refetchEvents' );
+	    },
 		select: function(startDate, endDate, allDay, jsEvent, view ) {
 			if(view.name='month'){
 				startDate.setHours(12);
@@ -106,12 +109,12 @@ $(document).ready(function() {
 	    	       function(data){
 	    	    	   if (data.status=="FUZZY"){
 	    	    		   openMoveResizeDialog(data.move_or_resize_url);
-	    	    		   //TODO : refresh calendar
                        }
+	    	    	   else {
+	    	    		   $('#calendar').fullCalendar('refetchEvents');
+	    	    	   }
 	    	       },
 	               "json");
-	    	$('#calendar').fullCalendar('refetchEvents');
-	    	
 	    },
 	    eventResize: function(event,dayDelta,minuteDelta) {
 	        alert(

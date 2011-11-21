@@ -4,7 +4,10 @@ function openCancelDialog(node, cancel_url, delete_url, event){
   event.stopPropagation();
   var btns = {"This":function(){openURL(cancel_url, event);}, 
 		      "All":function(){openURL(delete_url, event)}, 
-		      "Do nothing":function(){$(this).dialog("destroy");}};
+		      "Do nothing":function(){
+                  $(this).dialog("destroy");
+                  $('#calendar').fullCalendar('refetchEvents');
+              }};
   dia = $("#delete_dialog").dialog({'buttons':btns, 'modal':true});
   dia.dialog('open');
   return false;
@@ -14,7 +17,10 @@ function openEditDialog(node, occurrence_url, event_url, event){
   event.stopPropagation();
   var btns = {"This":function(){openURL(occurrence_url, event);}, 
 		      "All":function(){openURL(event_url, event);}, 
-		      "Do nothing":function(){$(this).dialog("destroy");}};
+		      "Do nothing":function(){
+                  $(this).dialog("destroy");
+                  $('#calendar').fullCalendar('refetchEvents');
+              }};
   dia = $("#edit_dialog").dialog({'buttons':btns, 'modal':true});
   dia.dialog('open');
   return false;
@@ -23,7 +29,10 @@ function openEditDialog(node, occurrence_url, event_url, event){
 function openMoveResizeDialog(move_or_resize_url){
 	  var btns = {"This":function(){callURL(move_or_resize_url+"&target=this");}, 
 	              "All":function(){callURL(move_or_resize_url+"&target=all");}, 
-	              "Do nothing":function(){$(this).dialog("destroy");}};
+	              "Do nothing":function(){
+	            	  $(this).dialog("destroy");
+	            	  $('#calendar').fullCalendar('refetchEvents');
+	              }};
 	  dia = $("#move_resize_dialog").dialog({'buttons':btns, 'modal':true});
 	  dia.dialog('open');
 	  return false;
@@ -49,6 +58,7 @@ function callURL(url, event){
     $("#delete_dialog").dialog("destroy");
     $("#move_resize_dialog").dialog("destroy");
     $.get(url);
+    $('#calendar').fullCalendar('refetchEvents');
 }
 </script>
 
