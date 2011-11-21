@@ -115,4 +115,8 @@ urlpatterns = patterns('',
     url(r'^event_json/$',
         'schedule.views.event_json',
         name="event_json"),
+
+    url(r'^ajax/move_or_resize/$',
+        'myagenda.views.ajax_move_or_resize_by_code',
+        name="ajax_move_or_resize"),
 )

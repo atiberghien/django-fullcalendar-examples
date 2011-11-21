@@ -20,6 +20,15 @@ function openEditDialog(node, occurrence_url, event_url, event){
   return false;
 }
 
+function openMoveResizeDialog(move_or_resize_url){
+	  var btns = {"This":function(){callURL(move_or_resize_url+"&target=this");}, 
+	              "All":function(){callURL(move_or_resize_url+"&target=all");}, 
+	              "Do nothing":function(){$(this).dialog("destroy");}};
+	  dia = $("#move_resize_dialog").dialog({'buttons':btns, 'modal':true});
+	  dia.dialog('open');
+	  return false;
+}
+
 function openDetail(node){
   var btns = { "Close":function(){$(this).dialog("destroy");}};
   dia = $($(node).attr("href")).dialog({'buttons':btns, 'modal':true, 'title':'Details'});
@@ -30,8 +39,16 @@ function openDetail(node){
 function openURL(url, event){
     event.stopPropagation();
     $("#edit_dialog").dialog("destroy");
-    $("#edit_dialog").dialog("edit_dialog");
+    $("#delete_dialog").dialog("destroy");
+    $("#move_resize_dialog").dialog("destroy");
     $.facebox({ajax : url});
+}
+
+function callURL(url, event){
+    $("#edit_dialog").dialog("destroy");
+    $("#delete_dialog").dialog("destroy");
+    $("#move_resize_dialog").dialog("destroy");
+    $.get(url);
 }
 </script>
 
@@ -41,5 +58,9 @@ function openURL(url, event){
 
 <div style="display:none;" id="edit_dialog" title="This is a recurring event">
   Do you want to edit this occurrence or all occurrences?
+</div>
+
+<div style="display:none;" id="move_resize_dialog">
+  Do you want to just move/resize this occurrence or all occurrences of this event?
 </div>
 

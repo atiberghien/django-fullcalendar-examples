@@ -98,18 +98,26 @@ $(document).ready(function() {
 	    	});
 	    },
 	    eventDrop: function(event,dayDelta,minuteDelta) {
-
-	        alert(
-	            event.title + " was moved " +
-	            dayDelta + " days and " +
-	            minuteDelta + " minutes."
-	        );
-
+	    	$.get("{% url ajax_move_or_resize %}", 
+	    		  {id: event.id,
+	    	       dayDelta : dayDelta,
+	    	       minuteDelta : minuteDelta},
+	    	       function(data){
+	    	    	   if (data.status=="FUZZY"){
+	    	    		   openMoveResizeDialog(data.move_or_resize_url);
+	    	    		   //TODO : refresh calendar
+                       }
+	    	    	   else{
+	    	    		   $('#calendar').fullCalendar('refetchEvents');
+	                       $('#calendar').fullCalendar('rerenderEvents');
+	    	    	   }
+	    	       },
+	               "json");
+	    	
 	    },
 	    eventResize: function(event,dayDelta,minuteDelta) {
-
 	        alert(
-	            "The end date of " + event.title + "has been moved " +
+	            "The end date of " + event.id + "has been moved " +
 	            dayDelta + " days and " +
 	            minuteDelta + " minutes."
 	        );
@@ -144,7 +152,8 @@ $(document).ready(function() {
     }) ;
     
     $(document).bind('afterClose.facebox', function() {
-    	$('#calendar').fullCalendar( 'refresh' );
+    	$('#calendar').fullCalendar( 'refetchEvents' );
+        $('#calendar').fullCalendar('rerenderEvents');
     });
     
     $("#create_event_link").click(function(){

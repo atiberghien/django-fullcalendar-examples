@@ -2,3 +2,7 @@
 .project
 .pydevproject
 *.db
+/bin
+/include
+/src
+/lib
