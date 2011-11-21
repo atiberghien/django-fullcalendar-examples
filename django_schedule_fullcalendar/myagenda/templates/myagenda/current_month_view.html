@@ -108,12 +108,9 @@ $(document).ready(function() {
 	    	    		   openMoveResizeDialog(data.move_or_resize_url);
 	    	    		   //TODO : refresh calendar
                        }
-	    	    	   else{
-	    	    		   $('#calendar').fullCalendar('refetchEvents');
-	                       $('#calendar').fullCalendar('rerenderEvents');
-	    	    	   }
 	    	       },
 	               "json");
+	    	$('#calendar').fullCalendar('refetchEvents');
 	    	
 	    },
 	    eventResize: function(event,dayDelta,minuteDelta) {
@@ -154,7 +151,6 @@ $(document).ready(function() {
     
     $(document).bind('afterClose.facebox', function() {
     	$('#calendar').fullCalendar( 'refetchEvents' );
-        $('#calendar').fullCalendar('rerenderEvents');
     });
     
     $("#create_event_link").click(function(){
@@ -168,24 +164,26 @@ $(document).ready(function() {
 <style>
 {% for cal in calendars %}
 div.{{cal.slug|replace:"-,_"}}_event {
-    border-color: {{cal.color}};
+    border-color: {{cal.get_color_display}};
 }
 {% endfor %}
-span.actions {
-	float: right;
-}
 </style>
 {% endblock %}
 
 {% block content %}
 <div id="info_panel" class="grid_2 alpha">
-<a id="new_calendar_link" href="{% url calendar_create %}" >{%trans 'create a calendar'|capfirst%}</a>
-<h4>Calendar(s)</h4>
+<h4>{% trans 'calendar'|capfirst %}{{calendars.count|pluralize}}
+    (<a id="new_calendar_link" href="{% url calendar_create %}" >
+        <img src="{{MEDIA_URL}}/schedule/img/add.png" alt="{% trans 'add a calendar'|capfirst%}"/>
+     </a>)
+</h4>
 <ul>
 {% for cal in calendars %}
-	<li style="background-color: {{cal.get_color_display}} "><input class="calActivator" type="checkbox" value="{{cal.slug|replace:"-,_"}}" checked="checked"/>{{cal}}</li>
+	<li style="background-color: {{cal.get_color_display}} ">
+        <input class="calActivator" type="checkbox" value="{{cal.slug|replace:"-,_"}}" checked="checked"/>{{cal}}
+    </li>
 {% empty %}
-	<li>No calendar</li>
+	<li>{% trans 'no calendar'|capfirst %}</li>
 {% endfor %}
 </ul>
 </div>
@@ -194,9 +192,11 @@ span.actions {
 	</div>
 </div>
 <div id="events_panel" class="grid_3 omega" style="overflow:auto;">
-    <p>
-    <a id="create_event_link" href="{% url calendar_create_event %}">{%trans 'create an event'|capfirst%}</a>
-    </p>
+    <h4>{%trans 'event'|capfirst%}{{occurences.count|pluralize}}
+        (<a id="create_event_link" href="{% url calendar_create_event %}">
+            <img src="{{MEDIA_URL}}/schedule/img/add.png" alt="{% trans 'add an event'|capfirst%}"/>
+        </a>)
+   </h4>
     <div id="allEvents">
     </div>
 </div>

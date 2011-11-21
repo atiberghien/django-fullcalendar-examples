@@ -1,5 +1,6 @@
 {% load strings %}
 {% load scheduletags %}
+{% load i18n %}
 
 {% for occ in occurences %}
 <div class="block event {{occ.event.calendar.slug|replace:'-,_'}}_event" 

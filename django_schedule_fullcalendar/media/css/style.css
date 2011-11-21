@@ -25,10 +25,25 @@ ul {
 	margin-bottom: 2px;
 	padding-left: 10px;
 	list-style: none;
-	font-size: 12px;	
+	font-size: 12px;
+	width: 100%;
+}
+ul li {
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;    
 }
 
 span.title {
 	font-size: 14px;
 	font-weight: bold;
+}
+
+span.actions {
+    float: right;
+}
+
+h4 {
+    margin-top : 5px;
+    margin-bottom: 5px;
 }
