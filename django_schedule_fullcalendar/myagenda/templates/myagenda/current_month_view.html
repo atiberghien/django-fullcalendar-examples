@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load strings %}
 {% load scheduletags %}
+{% load i18n %}
 
 {% block htmlheader %}
 <script type='text/javascript'>
@@ -81,7 +82,7 @@ $(document).ready(function() {
 			}
 			var start =  Math.round(startDate.getTime());
 			var end =  Math.round(endDate.getTime());
-			var url = '{% url calendar_create_event current_calendar.slug %}?start='+start
+			var url = '{% url calendar_create_event %}?start='+start
 			if (start != end){
 				url += '&end='+end
 			}
@@ -178,7 +179,7 @@ span.actions {
 
 {% block content %}
 <div id="info_panel" class="grid_2 alpha">
-<a id="new_calendar_link" href="{% url calendar_create %}" >Add a calendar</a>
+<a id="new_calendar_link" href="{% url calendar_create %}" >{%trans 'create a calendar'|capfirst%}</a>
 <h4>Calendar(s)</h4>
 <ul>
 {% for cal in calendars %}
@@ -194,7 +195,7 @@ span.actions {
 </div>
 <div id="events_panel" class="grid_3 omega" style="overflow:auto;">
     <p>
-    {% create_event_url current_calendar now %}
+    <a id="create_event_link" href="{% url calendar_create_event %}">{%trans 'create an event'|capfirst%}</a>
     </p>
     <div id="allEvents">
     </div>

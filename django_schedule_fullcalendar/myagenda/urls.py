@@ -40,7 +40,7 @@ urlpatterns = patterns('',
         'schedule.views.event',
         name="event"),
 
-    url(r'^event/create/(?P<calendar_slug>[-\w]+)/$',
+    url(r'^event/create/$',
         'schedule.views.create_or_edit_event',
         {'form_class' : MyEventForm,
          'coerce_date_func' : coerce_dates_dict,
@@ -62,8 +62,8 @@ urlpatterns = patterns('',
     #urls for already persisted occurrences
     url(r'^occurrence/(?P<event_id>\d+)/(?P<occurrence_id>\d+)/$',
         'schedule.views.occurrence',
-        name="occurrence"), 
-                       
+        name="occurrence"),
+
     url(r'^occurrence/cancel/(?P<event_id>\d+)/(?P<occurrence_id>\d+)/$',
         'schedule.views.cancel_occurrence',
         name="cancel_occurrence"),
