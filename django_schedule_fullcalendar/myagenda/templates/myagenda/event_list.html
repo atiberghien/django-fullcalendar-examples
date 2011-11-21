@@ -7,7 +7,9 @@
      style="{% if occ.cancelled %}background-color: grey;{% endif %}">
     <p>
         {% title occ %}
+        {% if not occ.cancelled %}
         {% options occ %}
+        {% endif %}
 	</p>
 	{% if occ.description %}
 	<p><em>Description : {{occ.description}}</em></p>
