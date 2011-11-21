@@ -99,23 +99,29 @@ def ajax_move_or_resize_by_code(request):
     minuteDelta = int(request.REQUEST.get('minuteDelta'))
     dt = timedelta(days=dayDelta, minutes=minuteDelta)
 
+    resize = bool(request.REQUEST.get('resize', False))
     resp = {}
     if occurrence.event.rule:
         if occurrence.id:
             #Direct move/resize occurrence
-            occurrence.move(occurrence.start + dt,
-                            occurrence.end + dt)
+            new_start = occurrence.start
+            if not resize :
+                new_start += dt
+            occurrence.move(new_start, occurrence.end + dt)
             resp['status'] = "OK"
         else:
             #Either move/resize event or occurrences. Need to ask to the user
             if 'target' in request.REQUEST:
                 target = request.REQUEST.get('target')
                 if target == 'this':
-                    occurrence.move(occurrence.start + dt,
-                                    occurrence.end + dt)
+                    new_start = occurrence.start
+                    if not resize :
+                        new_start += dt
+                    occurrence.move(new_start, occurrence.end + dt)
                     resp['status'] = "OK"
                 elif target == 'all':
-                    event.start = event.start + dt
+                    if not resize:
+                        event.start += dt
                     event.end = event.end + dt
                     event.save()
                     resp['status'] = "OK"
@@ -125,9 +131,12 @@ def ajax_move_or_resize_by_code(request):
                                                                                       id,
                                                                                       dayDelta,
                                                                                       minuteDelta)
+                if resize:
+                    resp['move_or_resize_url'] += "&resize=1"
     else:
         #Direct move/resize event
-        event.start = event.start + dt
+        if not resize:
+            event.start += dt
         event.end = event.end + dt
         event.save()
         resp['status'] = "OK"

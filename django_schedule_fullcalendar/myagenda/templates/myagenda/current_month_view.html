@@ -117,11 +117,20 @@ $(document).ready(function() {
 	               "json");
 	    },
 	    eventResize: function(event,dayDelta,minuteDelta) {
-	        alert(
-	            "The end date of " + event.id + "has been moved " +
-	            dayDelta + " days and " +
-	            minuteDelta + " minutes."
-	        );
+	    	$.get("{% url ajax_move_or_resize %}", 
+                  {id: event.id,
+                   dayDelta : dayDelta,
+                   minuteDelta : minuteDelta,
+                   resize : true},
+                   function(data){
+                       if (data.status=="FUZZY"){
+                           openMoveResizeDialog(data.move_or_resize_url);
+                       }
+                       else {
+                           $('#calendar').fullCalendar('refetchEvents');
+                       }
+                   },
+                   "json");
 	    },
 	    eventSources: [
            {% for cal in calendars %}
